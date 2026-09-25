@@ -1,12 +1,19 @@
 export const site = {
   name: "Shafa Holding",
+  legalName: "SHAFA Holding Group LLC",
   established: 1982,
   tagline: "Building a Legacy of Resilience and Progress",
   address: [
-    "Al Manara Tower – ETA Star",
-    "23rd Floor, No. 2302–2304",
-    "Business Bay, Dubai, UAE",
+    "Dubai Maritime City FZE (DMC MBC-1 Building)",
+    "Floor #10, Office B3 & B4",
+    "Dubai, UAE",
   ],
+  phone: {
+    display: "+971 4 345 5843",
+    href: "tel:+97143455843",
+  },
+  email: "info@shafa.com",
+  workingHours: "Monday – Saturday, 8:00 AM – 6:00 PM (GST)",
 } as const;
 
 export const purposeStatements = {

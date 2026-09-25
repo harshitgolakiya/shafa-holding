@@ -6,7 +6,7 @@ import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: "Contact Shafa Holding at its headquarters in Business Bay, Dubai, UAE.",
+  description: "Contact Shafa Holding at its headquarters in Dubai Maritime City, UAE.",
   alternates: { canonical: "/contact" },
   openGraph: { url: "/contact", title: "Contact | Shafa Holding" },
 };
@@ -23,11 +23,22 @@ export default function ContactPage() {
           <div className="mt-16 grid gap-16 border-t border-white/15 pt-14 lg:grid-cols-12">
             <FadeIn className="lg:col-span-4">
               <p className="eyebrow">Dubai headquarters</p>
-              <address className="mt-7 not-italic font-[family-name:var(--font-display)] text-3xl leading-[1.3] text-white/85">
-                {site.address.map((line) => <span key={line} className="block">{line}</span>)}
-              </address>
-              <div className="mt-10 border-l border-[var(--shafa-gold)] pl-5 text-sm leading-7 text-white/45">
-                <p>Email and phone details will be published when supplied and approved by the client.</p>
+              <div className="mt-8 space-y-8">
+                <ContactDetail label="Address">
+                  <address className="not-italic">
+                    <span className="block">{site.legalName}</span>
+                    {site.address.map((line) => <span key={line} className="block">{line}</span>)}
+                  </address>
+                </ContactDetail>
+                <ContactDetail label="Phone">
+                  <a className="transition-colors hover:text-white" href={site.phone.href}>{site.phone.display}</a>
+                </ContactDetail>
+                <ContactDetail label="Email">
+                  <a className="transition-colors hover:text-white" href={`mailto:${site.email}`}>{site.email}</a>
+                </ContactDetail>
+                <ContactDetail label="Working hours">
+                  <p>{site.workingHours}</p>
+                </ContactDetail>
               </div>
             </FadeIn>
             <FadeIn className="lg:col-span-7 lg:col-start-6" delay={0.08}>
@@ -38,5 +49,14 @@ export default function ContactPage() {
         </Container>
       </section>
     </main>
+  );
+}
+
+function ContactDetail({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="border-l border-[var(--shafa-gold)] pl-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--shafa-gold)]">{label}</p>
+      <div className="mt-2 text-base leading-7 text-white/75">{children}</div>
+    </div>
   );
 }

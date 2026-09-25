@@ -25,8 +25,11 @@ export function Footer() {
           </FooterColumn>
           <FooterColumn title="Dubai Office" className="md:col-span-2">
             <address className="not-italic text-sm leading-7 text-white/55">
+              <span className="block">{site.legalName}</span>
               {site.address.map((line) => <span key={line} className="block">{line}</span>)}
             </address>
+            <a href={site.phone.href} className="text-sm leading-6 text-white/55 transition-colors hover:text-white">{site.phone.display}</a>
+            <a href={`mailto:${site.email}`} className="text-sm leading-6 text-white/55 transition-colors hover:text-white">{site.email}</a>
           </FooterColumn>
         </div>
         <div className="flex flex-col gap-4 pt-8 text-xs tracking-[0.08em] text-white/40 sm:flex-row sm:items-center sm:justify-between">

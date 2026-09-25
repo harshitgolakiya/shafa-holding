@@ -136,4 +136,11 @@ Shafa Agro (Tanzania)
 VISIT WEBSITE: shafaagro.com
 
 Thank you
-Al Manara Tower – ETA Star, 23rd Floor No. 2302 - 2304, Business Bay – Dubai UAE
+
+Contact
+SHAFA Holding Group LLC
+Dubai Maritime City FZE (DMC MBC-1 Building)
+Floor #10, Office B3 & B4 — Dubai, UAE
+Phone: +971 4 345 5843
+Email: info@shafa.com
+Working Hours: Monday – Saturday, 8:00 AM – 6:00 PM (GST)

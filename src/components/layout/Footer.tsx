@@ -10,9 +10,9 @@ export function Footer() {
       <Container className="py-16 md:py-24">
         <div className="grid gap-14 border-b border-white/12 pb-16 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo light />
-            <p className="mt-8 max-w-sm font-[family-name:var(--font-display)] text-3xl leading-[1.1] text-white/85">
-              Building a Legacy of Resilience and Progress.
+            <Logo />
+            <p className="mt-8 max-w-sm text-sm leading-7 text-white/68">
+              Established in 1982, Shafa Holding brings together marine and infrastructure construction with sustainable agriculture. Across its businesses, the group is guided by resilience, long-term thinking and a commitment to sustainable progress.
             </p>
           </div>
           <FooterColumn title="Explore" className="md:col-span-2">

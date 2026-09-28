@@ -1,18 +1,29 @@
 @import "tailwindcss";
 
 :root {
-  --shafa-green-950: #07130d;
-  --shafa-green-900: #0b1b12;
-  --shafa-green-800: #10271a;
-  --shafa-green-700: #183526;
-  --shafa-gold: #a98a3d;
-  --shafa-gold-light: #c4a85c;
-  --shafa-gold-muted: #8c7335;
-  --shafa-ivory: #f5f1e8;
-  --shafa-sand: #ddd4c3;
-  --shafa-stone: #aaa394;
-  --shafa-white: #ffffff;
-  --shafa-black: #050806;
+  --forest: #1c2417;
+  --gold: #9f8c50;
+  --gold-light: #c8b778;
+  --gold-ink: #78672e;
+  --ivory: #f1efe7;
+  --white: #ffffff;
+  --ink: #1c2417;
+  --muted: #5a6056;
+  --line: #d3d2c5;
+
+  /* Compatibility aliases used throughout the existing components. */
+  --shafa-green-950: var(--forest);
+  --shafa-green-900: var(--forest);
+  --shafa-green-800: var(--ink);
+  --shafa-green-700: var(--muted);
+  --shafa-gold: var(--gold);
+  --shafa-gold-light: var(--gold-light);
+  --shafa-gold-muted: var(--gold-ink);
+  --shafa-ivory: var(--ivory);
+  --shafa-sand: var(--line);
+  --shafa-stone: var(--muted);
+  --shafa-white: var(--white);
+  --shafa-black: var(--ink);
   --page-gutter: clamp(1.25rem, 4vw, 4.5rem);
   --section-space: clamp(5rem, 8vw, 7.5rem);
   --content-width: 90rem;

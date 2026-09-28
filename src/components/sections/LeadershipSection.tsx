@@ -30,42 +30,6 @@ const leadershipTeam = [
     title: "Associate Director",
     company: "Business & Commercial Strategy",
   },
-  {
-    assetId: "LEADERSHIP-05",
-    name: "Mr Aref Mohammed Derhem",
-    title: "General Manager",
-    company: "Operations",
-  },
-  {
-    assetId: "LEADERSHIP-06",
-    name: "Mr Saji Devasia",
-    title: "Chief Financial Officer",
-    company: "Shafa Holding",
-  },
-  {
-    assetId: "LEADERSHIP-07",
-    name: "Mr Jeff Seol",
-    title: "Director — Engineering & Tendering",
-    company: "Shafa Holding",
-  },
-  {
-    assetId: "LEADERSHIP-08",
-    name: "Mr Park Hee Moon",
-    title: "Director — Project Planning & Management",
-    company: "Shafa Holding",
-  },
-  {
-    assetId: "LEADERSHIP-09",
-    name: "Mr Vijay Sadashiv Shinde",
-    title: "Director — Corporate Procurement & Readymix Operations",
-    company: "Shafa Holding",
-  },
-  {
-    assetId: "LEADERSHIP-10",
-    name: "Mr Prakash Vasudevan",
-    title: "Director — Human Capital Management",
-    company: "Shafa Holding",
-  },
 ] as const;
 
 type LeadershipPortraitProps = {

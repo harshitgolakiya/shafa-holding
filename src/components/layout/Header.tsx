@@ -34,7 +34,7 @@ export function Header() {
       className={`fixed inset-x-0 top-0 z-50 text-white transition-[background-color,height,border-color] duration-500 ${isTransparent ? "h-24 border-transparent bg-transparent" : "h-20 border-b border-white/10 bg-[var(--shafa-green-950)]/98"}`}
     >
       <div className="mx-auto flex h-full w-full max-w-[var(--content-width)] items-center justify-between px-[var(--page-gutter)]">
-        <Logo light />
+        <Logo />
 
         <nav aria-label="Primary navigation" className="hidden h-full lg:block">
           <ul className="flex h-full items-center gap-9">

@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { Container } from "@/components/ui/Container";
 import { GoldLine } from "@/components/ui/GoldLine";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 const chairman = {
-  assetId: "LEADERSHIP-01",
+  image: "/images/leadership/Abdoshamak.webp",
   name: "Mr Abdoshamakh Nasser Al Shebani",
   title: "Founder / Chairman",
   company: "Shafa Holding Ltd.",
@@ -13,19 +14,19 @@ const chairman = {
 
 const leadershipTeam = [
   {
-    assetId: "LEADERSHIP-02",
+    image: "/images/leadership/Mohammed.webp",
     name: "Mr Mohammed Abdoshamak Nasser",
     title: "Managing Director",
     company: "Shafa Holding",
   },
   {
-    assetId: "LEADERSHIP-03",
+    image: "/images/leadership/Momen.webp",
     name: "Mr Momen Abdoshamak Nasser",
     title: "Managing Director",
     company: "Shafa Agro — Tanzania",
   },
   {
-    assetId: "LEADERSHIP-04",
+    image: "/images/leadership/Munthir.webp",
     name: "Mr Munthir Abdoshamak Nasser",
     title: "Associate Director",
     company: "Business & Commercial Strategy",
@@ -33,25 +34,15 @@ const leadershipTeam = [
 ] as const;
 
 type LeadershipPortraitProps = {
-  assetId: string;
+  image: string;
   name: string;
+  sizes: string;
 };
 
-function LeadershipPortrait({ assetId, name }: LeadershipPortraitProps) {
+function LeadershipPortrait({ image, name, sizes }: LeadershipPortraitProps) {
   return (
-    <div
-      className="relative isolate aspect-[4/5] overflow-hidden bg-[var(--shafa-green-800)] text-[var(--shafa-ivory)]"
-      role="img"
-      aria-label={`Official portrait of ${name} pending.`}
-    >
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 opacity-35 [background-image:linear-gradient(145deg,transparent_0%,transparent_58%,rgba(169,138,61,.65)_58.1%,rgba(169,138,61,.65)_58.4%,transparent_58.5%),radial-gradient(circle_at_50%_38%,rgba(255,255,255,.12),transparent_28%)]"
-      />
-      <div className="absolute inset-x-6 bottom-6 border-t border-white/20 pt-4">
-        <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-[var(--shafa-gold-light)]">{assetId}</p>
-        <p className="mt-2 text-xs text-white/55">Official portrait pending</p>
-      </div>
+    <div className="relative aspect-[4/5] overflow-hidden bg-[var(--shafa-green-800)]">
+      <Image src={image} alt={`Portrait of ${name}`} fill sizes={sizes} className="object-cover" />
     </div>
   );
 }
@@ -66,7 +57,7 @@ export function LeadershipSection() {
 
         <article className="mt-16 grid gap-10 border-b border-[var(--shafa-green-900)]/18 pb-20 lg:grid-cols-12 lg:items-center lg:pb-24">
           <FadeIn className="lg:col-span-5">
-            <LeadershipPortrait assetId={chairman.assetId} name={chairman.name} />
+            <LeadershipPortrait image={chairman.image} name={chairman.name} sizes="(max-width: 1023px) 100vw, 40vw" />
           </FadeIn>
           <FadeIn className="lg:col-span-6 lg:col-start-7" delay={0.08}>
             <p className="eyebrow">{chairman.title}</p>
@@ -90,7 +81,7 @@ export function LeadershipSection() {
             {leadershipTeam.map((leader, index) => (
               <FadeIn key={leader.name} delay={(index % 3) * 0.04}>
                 <article>
-                  <LeadershipPortrait assetId={leader.assetId} name={leader.name} />
+                  <LeadershipPortrait image={leader.image} name={leader.name} sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 30vw" />
                   <h4 className="mt-6 font-[family-name:var(--font-display)] text-[clamp(1.65rem,2.1vw,2.15rem)] leading-[1.08]">
                     {leader.name}
                   </h4>

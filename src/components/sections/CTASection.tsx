@@ -5,7 +5,7 @@ import { LinkArrow } from "@/components/ui/LinkArrow";
 
 export function CTASection() {
   return (
-    <section className="bg-[var(--shafa-green-900)] py-[var(--section-space)] text-[var(--shafa-ivory)]">
+    <section className="bg-[var(--forest-soft)] py-[var(--section-space)] text-[var(--shafa-ivory)]">
       <Container>
         <FadeIn>
           <p className="eyebrow">What comes next</p>

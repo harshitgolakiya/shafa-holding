@@ -106,11 +106,15 @@ export default function Home() {
         <Container className="grid gap-16 lg:grid-cols-12 lg:gap-8">
           <FadeIn className="lg:col-span-4">
             <p className="eyebrow">Shafa Holding</p>
-            <div aria-hidden="true" className="mt-10 hidden lg:block">
-              <span className="block h-px w-28 bg-[var(--shafa-gold)]" />
-              <span className="mt-3 block h-px w-20 bg-[var(--shafa-gold)]/65" />
-              <span className="mt-3 block h-px w-12 bg-[var(--shafa-gold)]/35" />
-            </div>
+            <Image
+              src="/logo-mark.svg"
+              alt=""
+              width={78}
+              height={27}
+              className="mt-12 hidden h-auto w-full lg:block"
+              unoptimized
+              draggable={false}
+            />
           </FadeIn>
           <div className="lg:col-span-7 lg:col-start-6">
             <FadeIn>

@@ -2,17 +2,16 @@
 
 import { useState, type KeyboardEvent } from "react";
 import { Container } from "@/components/ui/Container";
-import { purposeStatements } from "@/data/site";
+import type { ContentMap } from "@/cms/defaults";
 
-const statements = [
-  { id: "mission", number: "01", label: "Mission", text: purposeStatements.mission },
-  { id: "vision", number: "02", label: "Vision", text: purposeStatements.vision },
-  { id: "purpose", number: "03", label: "Purpose", text: purposeStatements.purpose },
-] as const;
+type StatementId = "mission" | "vision" | "purpose";
 
-type StatementId = (typeof statements)[number]["id"];
-
-export function PurposeSection() {
+export function PurposeSection({ content }: { content: ContentMap["home"]["purpose"] }) {
+  const statements = [
+    { id: "mission", number: "01", label: "Mission", text: content.mission },
+    { id: "vision", number: "02", label: "Vision", text: content.vision },
+    { id: "purpose", number: "03", label: "Purpose", text: content.purpose },
+  ] as const;
   const [active, setActive] = useState<StatementId>("mission");
   const activeStatement = statements.find((statement) => statement.id === active) ?? statements[0];
 
@@ -32,9 +31,9 @@ export function PurposeSection() {
   }
 
   return (
-    <section className="bg-[var(--shafa-green-950)] py-[var(--section-space)] text-[var(--shafa-ivory)]">
+    <section className="bg-(--shafa-green-950) py-(--section-space) text-(--shafa-ivory)">
       <Container>
-        <p className="eyebrow">Why we move forward</p>
+        <p className="eyebrow">{content.eyebrow}</p>
         <div className="mt-12 grid gap-16 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-4" role="tablist" aria-label="Mission, vision and purpose" aria-orientation="vertical">
             {statements.map((statement, index) => {
@@ -52,13 +51,13 @@ export function PurposeSection() {
                   onKeyDown={(event) => handleKeyDown(event, index)}
                   className={`flex min-h-20 w-full items-center gap-6 border-t border-white/15 text-left transition-colors last:border-b ${selected ? "text-white" : "text-white/42 hover:text-white/75"}`}
                 >
-                  <span className="text-xs tracking-[0.16em] text-[var(--shafa-gold-light)]">{statement.number}</span>
-                  <span className="font-[family-name:var(--font-display)] text-2xl">{statement.label}</span>
+                  <span className="text-xs tracking-[0.16em] text-(--shafa-gold-light)">{statement.number}</span>
+                  <span className="font-(family-name:--font-display) text-2xl">{statement.label}</span>
                 </button>
               );
             })}
           </div>
-          <div className="flex min-h-[16rem] items-center lg:col-span-7 lg:col-start-6">
+          <div className="flex min-h-64 items-center lg:col-span-7 lg:col-start-6">
             {statements.map((statement) => (
               <div
                 key={statement.id}

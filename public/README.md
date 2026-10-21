@@ -1,12 +1,10 @@
 # Public Assets
 
-Place only client-approved or client-generated assets here. Follow the filenames and specifications in the root `ASSET_REQUESTS.md` file.
+Static logos and the site's built-in imagery. Images uploaded through the CMS are stored in the database, not here.
 
-- `logos/` — official Shafa Holding light and dark logo variants
+- `*.svg` — Shafa Holding logo variants
 - `images/home/` — homepage imagery
-- `images/about/` — About-page imagery
-- `images/leadership/` — official executive portraits
-- `images/investment/` — Investment and agricultural business imagery
-- `images/construction/` — construction-business imagery
-
-Do not remove the `.gitkeep` files until each directory contains a real asset.
+- `images/about/` — About page imagery
+- `images/leadership/` — executive portraits
+- `images/investment/` — Investment business imagery
+- `images/construction/` — Construction business imagery

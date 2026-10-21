@@ -4,12 +4,18 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import type { BusinessNavigation } from "@/cms/content";
 import { primaryNavigation } from "@/data/navigation";
 import { BusinessMegaMenu } from "./BusinessMegaMenu";
 import { Logo } from "./Logo";
 import { MobileMenu } from "./MobileMenu";
 
-export function Header() {
+type HeaderProps = {
+  businesses: BusinessNavigation;
+  mobileMenuText: string;
+};
+
+export function Header({ businesses, mobileMenuText }: HeaderProps) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -31,9 +37,9 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 text-white transition-[background-color,height,border-color] duration-500 ${isTransparent ? "h-24 border-transparent bg-transparent" : "h-20 border-b border-white/10 bg-[var(--shafa-green-950)]/98"}`}
+      className={`fixed inset-x-0 top-0 z-50 text-white transition-[background-color,height,border-color] duration-500 ${isTransparent ? "h-24 border-transparent bg-transparent" : "h-20 border-b border-white/10 bg-(--shafa-green-950)/98"}`}
     >
-      <div className="mx-auto flex h-full w-full max-w-[var(--content-width)] items-center justify-between px-[var(--page-gutter)]">
+      <div className="mx-auto flex h-full w-full max-w-(--content-width) items-center justify-between px-(--page-gutter)">
         <Logo />
 
         <nav aria-label="Primary navigation" className="hidden h-full lg:block">
@@ -45,10 +51,10 @@ export function Header() {
                     <summary className="relative flex h-full cursor-pointer list-none items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-white/78 transition-colors hover:text-white [&::-webkit-details-marker]:hidden">
                       {item.label}
                       <ChevronDown aria-hidden="true" className="size-3.5 transition-transform group-has-[details[open]]:rotate-180" />
-                      <span aria-hidden="true" className="absolute inset-x-0 bottom-5 h-px origin-left scale-x-0 bg-[var(--shafa-gold)] transition-transform duration-300 group-has-[details[open]]:scale-x-100" />
+                      <span aria-hidden="true" className="absolute inset-x-0 bottom-5 h-px origin-left scale-x-0 bg-(--shafa-gold) transition-transform duration-300 group-has-[details[open]]:scale-x-100" />
                     </summary>
-                    <div className="absolute left-1/2 top-full w-[min(58rem,calc(100vw-4rem))] -translate-x-1/2 bg-[var(--shafa-green-900)] shadow-[0_30px_80px_rgba(0,0,0,.3)]">
-                      <BusinessMegaMenu />
+                    <div className="absolute left-1/2 top-full w-[min(58rem,calc(100vw-4rem))] -translate-x-1/2 bg-(--shafa-green-900) shadow-[0_30px_80px_rgba(0,0,0,.3)]">
+                      <BusinessMegaMenu businesses={businesses} />
                     </div>
                   </details>
                 </li>
@@ -60,7 +66,7 @@ export function Header() {
                     className="group relative flex h-full items-center text-xs font-semibold uppercase tracking-[0.15em] text-white/78 transition-colors hover:text-white"
                   >
                     {item.label}
-                    <span aria-hidden="true" className={`absolute inset-x-0 bottom-5 h-px origin-left bg-[var(--shafa-gold)] transition-transform duration-300 ${pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    <span aria-hidden="true" className={`absolute inset-x-0 bottom-5 h-px origin-left bg-(--shafa-gold) transition-transform duration-300 ${pathname === item.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                   </Link>
                 </li>
               ),
@@ -79,7 +85,7 @@ export function Header() {
           {mobileOpen ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
-      <MobileMenu open={mobileOpen} onNavigate={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onNavigate={() => setMobileOpen(false)} businesses={businesses} text={mobileMenuText} />
     </header>
   );
 }

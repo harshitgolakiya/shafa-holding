@@ -60,6 +60,11 @@ a {
   text-decoration: none;
 }
 
+/* In the CMS, let Tailwind colour utilities on links win over the reset above. */
+.cms a {
+  color: revert-layer;
+}
+
 button,
 input,
 textarea,

@@ -14,7 +14,7 @@ export function LinkArrow({ href, children, external = false, className = "" }: 
   return (
     <Link
       href={href}
-      className={`group inline-flex min-h-11 items-center gap-3 border-b border-[var(--shafa-gold)] py-2 text-sm font-semibold uppercase tracking-[0.14em] ${className}`}
+      className={`group inline-flex min-h-11 items-center gap-3 border-b border-(--shafa-gold) py-2 text-sm font-semibold uppercase tracking-[0.14em] ${className}`}
       {...externalProps}
     >
       <span>{children}</span>

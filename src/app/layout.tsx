@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { getContent } from "@/cms/content";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -20,27 +18,28 @@ const sans = Manrope({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Shafa Holding | Building a Legacy of Resilience and Progress",
-    template: "%s | Shafa Holding",
-  },
-  description:
-    "Established in 1982, Shafa Holding operates across construction, specialist services and sustainable agricultural businesses.",
-  applicationName: "Shafa Holding",
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    type: "website",
-    url: "/",
-    siteName: "Shafa Holding",
-    title: "Shafa Holding | Building a Legacy of Resilience and Progress",
-    description:
-      "A diversified group built on construction heritage, operational expertise and long-term resilience.",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getContent("settings");
+  return {
+    metadataBase: new URL(siteUrl),
+    title: {
+      default: settings.seoTitle,
+      template: `%s | ${settings.name}`,
+    },
+    description: settings.seoDescription,
+    applicationName: settings.name,
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      type: "website",
+      url: "/",
+      siteName: settings.name,
+      title: settings.seoTitle,
+      description: settings.seoDescription,
+    },
+  };
+}
 
 export const viewport: Viewport = {
   colorScheme: "dark light",
@@ -52,15 +51,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
-      <body suppressHydrationWarning>
-        <SmoothScroll />
-        <a className="skip-link" href="#main-content">
-          Skip to content
-        </a>
-        <Header />
-        {children}
-        <Footer />
-      </body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

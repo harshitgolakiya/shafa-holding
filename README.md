@@ -1,107 +1,88 @@
 # Shafa Holding Website
 
-Production-ready Next.js App Router rebuild for Shafa Holding, based on `shafa-holding-nextjs-master-prompt.md` and the supplied current-site content.
+Corporate website and content management system for Shafa Holding, built with Next.js (App Router), Tailwind CSS and MySQL.
 
-## 1. Install
+## Requirements
 
-Requires a current Node.js LTS-compatible runtime and npm.
+- Node.js 20 or later
+- MySQL 5.7+ / MariaDB 10.3+ (or MySQL 8)
+
+## Getting Started
 
 ```bash
 npm install
-```
-
-The package scripts invoke local CLI files through Node so they continue to work when the Windows workspace path contains `&`.
-
-## 2. Run the Development Server
-
-```bash
+cp .env.example .env.local   # then fill in the values
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000`. The CMS sign-in page is at `http://localhost:3000/admin/login`.
 
-## 3. Build
-
-```bash
-npm run lint
-npm run typecheck
-npm run build
-```
-
-## 4. Start Production
+## Scripts
 
 ```bash
-npm run start
+npm run dev         # development server
+npm run lint        # ESLint
+npm run typecheck   # TypeScript
+npm run build       # production build (standalone output)
+npm run start       # serve the production build
 ```
 
-Set `PORT` in the host environment if the server should listen on a port other than 3000.
+Set `PORT` in the host environment to listen on a port other than 3000.
 
-## 5. Asset Locations
+## Content Management (CMS)
 
-- `public/logos/` — official client-supplied light and dark logo artwork
-- `public/images/home/` — homepage photography
-- `public/images/about/` — About hero photography
-- `public/images/leadership/` — approved real executive portraits
-- `public/images/investment/` — investment category and business photography
-- `public/images/construction/` — construction category and business photography
+All page copy, images, leadership, businesses, company details and SEO text are managed in the built-in CMS, stored in MySQL. Sign in at **`/admin/login`**; all other `/admin` addresses return 404 to signed-out visitors.
 
-The application currently renders deliberate media placeholders. See `ASSET_REQUESTS.md` for filenames, dimensions, crop guidance and ready-to-copy prompts. The coding agent must not download or generate imagery. Executive portraits require official client-provided assets.
+- **Pages & content** — every page of the site, plus site settings (address, phone, email, footer, default SEO and contact notification emails). Published changes go live immediately.
+- **Contact inbox** — contact form submissions with new/read/archived status, search, reply-by-email and CSV export.
+- **Media library** — uploaded images are stored in the database, so they are preserved across deployments. Images in use cannot be deleted.
+- **Users** — add or remove CMS users and change passwords.
 
-## 6. Content Locations
+`src/cms/defaults.ts` holds the original content. It is used until a page is edited, fills any field missing from saved content, and is what “Restore original” returns to. `src/cms/schema.ts` defines the editor form for each page. To add a new editable field, add it to both files and render it in the relevant page or section.
 
-- `src/data/site.ts` — company identity, address and purpose statements
-- `src/data/businesses.ts` — business names, categories, links and planned image paths
-- `src/data/navigation.ts` — global and mega-menu navigation
-- `src/data/values.ts` — source-approved core values
-- `Shafa Holding - Current Website Content.md` — factual source authority
+Database tables are created automatically on first use. The first administrator is created from `CMS_ADMIN_EMAIL` / `CMS_ADMIN_PASSWORD` the first time someone signs in while no users exist; remove those variables afterwards and change the password under **Users**.
 
-Missing facts remain explicitly labelled and must not be invented. The CEO name, biography and portrait remain client-owned inputs.
+If the database is unreachable, the public site continues to render the built-in content and the contact form reports that it is temporarily unavailable.
 
-## 7. Environment Variables
+## Environment Variables
 
-Copy `.env.example` to `.env.local`.
+See `.env.example`.
 
-- `NEXT_PUBLIC_SITE_URL` — canonical public URL used by metadata, structured data, robots and sitemap
-- `CONTACT_FORM_RECIPIENT` — reserved for the approved server-side form integration
-- `CONTACT_PROVIDER_API_KEY` — reserved for the approved provider; never expose it to client components
+- `NEXT_PUBLIC_SITE_URL` — canonical public URL used by metadata, structured data, robots, sitemap and notification emails
+- `DATABASE_URL` — MySQL connection string, e.g. `mysql://user:password@localhost:3306/shafa` (or `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`)
+- `CMS_ADMIN_EMAIL`, `CMS_ADMIN_PASSWORD`, `CMS_ADMIN_NAME` — first administrator (only used while no users exist)
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` — optional; enables email notifications for new inquiries
+- `CONTACT_NOTIFY_TO` — fallback notification recipients (comma separated) when none are set in CMS → Site settings
 
-## 8. Contact Form Integration
+## Contact Form
 
-`POST /api/contact` currently provides:
+`POST /api/contact` validates submissions (required fields, email format, message length and a honeypot field), limits each IP address to 5 submissions per 10 minutes, stores them in the `contact_submissions` table and, when SMTP is configured, emails the notification recipients with the visitor as reply-to. Submissions are always kept in the CMS inbox, even if an email fails to send.
 
-- server-side JSON validation;
-- email-format and message-length checks;
-- a honeypot field for basic bot filtering;
-- explicit `422`, `400` and unconfigured-service responses;
-- no persistence and no false success response.
+## Deployment
 
-Before launch, connect the route handler to an approved email or CRM provider, set the recipient and secret in the host environment, add provider error handling, and introduce production-grade rate limiting at the hosting or durable-storage layer. Update the privacy policy to describe the actual data flow and retention behavior.
+The build uses `output: "standalone"`.
 
-## 9. Deployment Notes
+1. Create a MySQL database and user.
+2. Set the environment variables above on the host.
+3. Run `npm ci && npm run build`.
+4. Copy `.next/standalone`, `.next/static` (to `.next/static`) and `public` to the server and start `node server.js`, or run `npm run start` from the project.
+5. Serve behind HTTPS.
 
-### Vercel
+A `Dockerfile` is included that produces the same standalone bundle (`docker build --target production .`).
 
-Import the repository, set `NEXT_PUBLIC_SITE_URL` to the final HTTPS domain, add approved contact-provider secrets, and deploy using the standard Next.js preset.
-
-### Node / VPS / Hostinger
-
-1. Install production dependencies with `npm ci`.
-2. Set environment variables outside the repository.
-3. Run `npm run build`.
-4. Run `npm run start` behind a reverse proxy with HTTPS.
-5. Use a process manager supported by the host.
-6. Forward the real client IP only through trusted proxy configuration before adding IP-based rate limiting.
-
-Security response headers are configured in `next.config.ts`. Replace the localhost canonical URL before public deployment.
+Security response headers are configured in `next.config.ts`.
 
 ## Project Structure
 
-- `src/app/` — routes, route handler, metadata files and global states
+- `src/app/(site)/` — public pages
+- `src/app/admin/` — CMS screens, server actions and media upload API
+- `src/app/api/contact/` — contact form endpoint
+- `src/app/media/` — serves CMS-uploaded images
+- `src/cms/` — database access, content defaults and editor schema, authentication, inbox, media and mail
 - `src/components/layout/` — header, menus and footer
-- `src/components/sections/` — editorial page sections and business patterns
-- `src/components/forms/` — contact interaction and status UI
-- `src/components/ui/` — reusable visual primitives
-- `src/components/motion/` — reduced-motion-aware animation primitives
+- `src/components/sections/` — page sections
+- `src/components/forms/` — contact form
+- `src/components/ui/` — shared UI primitives
+- `src/components/motion/` — animation and smooth-scroll helpers
 - `src/components/seo/` — structured-data helper
-- `ASSET_REQUESTS.md` — client asset specifications and prompts
-- `shafa-holding-phased-build-plan.md` — implementation phases and progress ledger
+- `public/` — logos and built-in imagery

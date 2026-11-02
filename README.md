@@ -62,13 +62,17 @@ See `.env.example`.
 
 The build uses `output: "standalone"`.
 
+Use a host that can run a persistent Node.js process and connect to MySQL; static file hosting alone cannot run the CMS or contact form. The MySQL user needs permission to create tables on first use and to read and write CMS content, media and contact submissions.
+
 1. Create a MySQL database and user.
-2. Set the environment variables above on the host.
+2. Set the environment variables above on the host. Set `NEXT_PUBLIC_SITE_URL` to the final HTTPS URL **before building**; Next.js embeds public environment variables in the build, so changing this value later requires a rebuild. Keep database, CMS administrator and SMTP credentials in private host configuration, not in Git.
 3. Run `npm ci && npm run build`.
 4. Copy `.next/standalone`, `.next/static` (to `.next/static`) and `public` to the server and start `node server.js`, or run `npm run start` from the project.
 5. Serve behind HTTPS.
 
-A `Dockerfile` is included that produces the same standalone bundle (`docker build --target production .`).
+A `Dockerfile` is included that produces the same standalone bundle. Pass the public URL at build time, for example `docker build --target production --build-arg NEXT_PUBLIC_SITE_URL=https://example.com -t shafa-holding .`. Provide `DATABASE_URL` (or the `MYSQL_*` settings), the initial `CMS_ADMIN_*` values and any optional SMTP settings to the container at runtime. The database must be reachable from the container.
+
+After deployment, check that the public site loads at the final URL, `/admin/login` creates the first administrator, and a test contact form submission appears in the CMS inbox. If SMTP is configured, also check that the notification arrives at the intended mailbox. Remove the initial `CMS_ADMIN_EMAIL` and `CMS_ADMIN_PASSWORD` from host configuration after creating the administrator, and change the password under **Users**.
 
 Security response headers are configured in `next.config.ts`.
 
